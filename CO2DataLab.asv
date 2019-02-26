@@ -69,13 +69,6 @@ title('January pCO_2 ')
 
 
 %% 4. Calculate and plot a global map of annual mean pCO2
-Annmean = mean(CO2_SWgrid,3);
-figure(2); clf;
-worldmap world
-contourfm(latgrid, longrid, Annmean','linecolor','none');
-colorbar
-geoshow('landareas.shp','FaceColor','black')
-title('Annual Mean')
 
 %% 5. Calculate and plot a global map of the difference between the annual mean seawater and atmosphere pCO2
 %<--
