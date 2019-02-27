@@ -78,14 +78,40 @@ geoshow('landareas.shp','FaceColor','black')
 title('Annual Mean')
 
 %% 5. Calculate and plot a global map of the difference between the annual mean seawater and atmosphere pCO2
-%<--
+% diffmeanCO2 = Annmean-'atm pCO2 that we find' ;
+% figure(3); clf;
+% worldmap world
+% contourfm(latgrid, longrid, diffmeanCO2','linecolor','none');
+% colormap(cmocean('balance')); caxis([###]); colorbar
+% geoshow('landareas.shp','FaceColor','black')
+% title('Difference between annual mean SW and pCO2atm')
+
+
 
 %% 6. Calculate relative roles of temperature and of biology/physics in controlling seasonal cycle
-%<--
+pCO2_T = repmat(CO2_SWgrid, 1);
+pCO2_BP = repmat(CO2_SWgrid, 1);
+pCO2_BP =(CO2_SWgrid).^(0.0423*(mean(CO2data.SST)-SSTgrid));
+pCO2_T = (Annmean).^(0.0423*(SSTgrid-mean(CO2data.SST)));
 
 %% 7. Pull out and plot the seasonal cycle data from stations of interest
 %Do for BATS, Station P, and Ross Sea (note that Ross Sea is along a
 %section of 14 degrees longitude - I picked the middle point)
+vars = {SSTgrid CO2_SWgrid pCO2_T pCO2_BP};
+for i=1:12
+    for x = 1:4
+    BATS(i,x) = vars{x}(60,28,i);
+    StP(i,x) = vars{x}(44,32,i);
+    ROSS(i,x) = vars{x}(35,1,i);
+    end
+end
+
+%% Figures
+figure(4)
+subplot(2,1,1)
+plot(monthgrid, BATS(:,1));
+subplot(2,1,2)
+plot(monthgrid, BATS(:,2:4));
 
 %<--
 
