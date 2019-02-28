@@ -91,8 +91,8 @@ title('Annual Mean')
 %% 6. Calculate relative roles of temperature and of biology/physics in controlling seasonal cycle
 pCO2_T = repmat(CO2_SWgrid, 1);
 pCO2_BP = repmat(CO2_SWgrid, 1);
-pCO2_BP =(CO2_SWgrid).*exp((0.0423*(mean(CO2data.SST)-SSTgrid))); %exp(x) means e^x! 
-pCO2_T = (Annmean).*exp((0.0423*(SSTgrid-mean(CO2data.SST)))); %?? still wrong
+pCO2_BP =(CO2_SWgrid).*exp((0.0423*(mean(SSTgrid,3)-SSTgrid))); %exp(x) means e^x! 
+pCO2_T = (Annmean).*exp((0.0423*(SSTgrid-mean(SSTgrid,3)))); 
 
 %% 7. Pull out and plot the seasonal cycle data from stations of interest
 %Do for BATS, Station P, and Ross Sea (note that Ross Sea is along a
