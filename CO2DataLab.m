@@ -75,7 +75,7 @@ worldmap world
 contourfm(latgrid, longrid, Annmean','linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
-title('Annual Mean')
+title('Global Annual Mean pCO_2')
 
 %% 5. Calculate and plot a global map of the difference between the annual mean seawater and atmosphere pCO2
 % diffmeanCO2 = Annmean-'atm pCO2 that we find' ;
@@ -110,8 +110,13 @@ end
 figure(4); clf;
 subplot(2,1,1)
 plot(monthgrid, BATS(:,1));
+title("Bermuda Atlantic Time Series (BATS)")
+ylabel("SST (^oC)")
 subplot(2,1,2)
 plot(monthgrid, BATS(:,2:4));
+xlabel("Month")
+ylabel("pCO_2 (\muatm)")
+legend("Observed pCO_2", "pCO_2, Temperature", "pCO_2, Biophysical") 
 
 %<--
 
