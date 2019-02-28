@@ -1,5 +1,4 @@
 %% Kalau & Emma
-
 % Instructions: Follow through this code step by step, while also referring
 % to the overall instructions and questions from the lab assignment sheet.
 
@@ -50,8 +49,7 @@ imagesc(CO2_SWgrid(:,:,9))
 figure(1); clf
 subplot(2,1,1);
 worldmap world
-contourfm(latgrid, longrid, SSTgrid(:,:,1)','linecolor','none');
-colorbar
+contourfm(latgrid, longrid, SSTgrid(:,:,1)','linecolor','none'); colorbar;
 geoshow('landareas.shp','FaceColor','black')
 title('January Sea Surface Temperature (^oC)')
 
@@ -62,8 +60,7 @@ title('January Sea Surface Temperature (^oC)')
 
 subplot(2,1,2)
 worldmap world
-contourfm(latgrid, longrid, CO2_SWgrid(:,:,1)','linecolor','none');
-colorbar
+contourfm(latgrid, longrid, CO2_SWgrid(:,:,1)','linecolor','none'); colorbar
 geoshow('landareas.shp','FaceColor','black')
 title('January pCO_2 ')
 
@@ -72,8 +69,7 @@ title('January pCO_2 ')
 Annmean = mean(CO2_SWgrid,3);
 figure(2); clf;
 worldmap world
-contourfm(latgrid, longrid, Annmean','linecolor','none');
-colorbar
+contourfm(latgrid, longrid, Annmean','linecolor','none'); colorbar
 geoshow('landareas.shp','FaceColor','black')
 title('Global Annual Mean pCO_2')
 
@@ -107,22 +103,51 @@ for i=1:12
 end
 
 %% Figures
-figure(4); clf;
-subplot(2,1,1)
-plot(monthgrid, BATS(:,1));
-title("Bermuda Atlantic Time Series (BATS)")
-ylabel("SST (^oC)")
-subplot(2,1,2)
-plot(monthgrid, BATS(:,2:4));
-xlabel("Month")
-ylabel("pCO_2 (\muatm)")
-legend("Observed pCO_2", "pCO_2, Temperature", "pCO_2, Biophysical") 
-
-%<--
+stations = {BATS ROSS StP}; titles = {'Bermuda Atlantic Time Series (BATS)' 'ROSS Sea' 'Ocean Station Papa'};
+for i=1:3
+    figure(3+i); clf;
+    subplot(2,1,1)
+    plot(monthgrid, stations{i}(:,1),'-o', 'LineWidth',3,'MarkerSize', 4);
+    ylabel("SST (^oC)"); title(titles{i})
+    subplot(2,1,2)
+    plot(monthgrid, stations{i}(:,2:4), '-o','LineWidth',3, 'MarkerSize', 4);
+    xlabel("Month"); ylabel("pCO_2 (\muatm)")
+    legend("Observed pCO_2", "pCO_2, Temperature", "pCO_2, Biophysical") 
+end
 
 %% 8. Reproduce your own versions of the maps in figures 7-9 in Takahashi et al. 2002
 % But please use better colormaps!!!
 % Mark on thesese maps the locations of the three stations for which you plotted the
 % seasonal cycle above
+staLON = [296 172 215]; staLAT = [32 -76.5 50];
+figure(7);
+worldmap world
+contourfm(latgrid, longrid, (max(pCO2_BP,[],3)-min(pCO2_BP,[],3))','linecolor','none'); hold on;
+colormap(cmocean('deep')); colorbar
+h = colorbar; set(get(h,'label'),'string','pCO_2 change(\muatm)')
+scatterm(staLAT, staLON, 70, 'rp', 'filled'); hold on;
+textm(staLAT+5, staLON+5, titles,'Color','red','FontSize',14);
+geoshow('landareas.shp','FaceColor','black')
+title('Seasonal BioPhysical Drawdown of Seawater pCO_2')
+%%
+figure(8); clf;
+worldmap world
+contourfm(latgrid, longrid, (max(pCO2_T,[],3)-min(pCO2_T,[],3))','linecolor','none');
+colormap(flipud(cmocean('solar'))); colorbar
+h = colorbar; set(get(h,'label'),'string','pCO_2 change(\muatm)')
+scatterm(staLAT, staLON, 70, 'rp', 'filled'); hold on;
+textm(staLAT+5, staLON+5, titles,'Color','red','FontSize',14);
+geoshow('landareas.shp','FaceColor','black')
+title('Seasonal Temperature Effect of Seawater pCO_2')
 
-%<--
+%%
+tBPdiff = ((max(pCO2_T,[],3)-min(pCO2_T,[],3))')-((max(pCO2_BP,[],3)-min(pCO2_BP,[],3))');
+figure(9); clf;
+worldmap world
+contourfm(latgrid, longrid, tBPdiff,'linecolor','none');
+colormap(cmocean('curl')); caxis([-200 200]);  colorbar
+h = colorbar; set(get(h,'label'),'string','pCO_2 (\muatm)')
+scatterm(staLAT, staLON, 70, 'rp', 'filled'); hold on;
+textm(staLAT+5, staLON+5, titles,'Color','red','FontSize',14);
+geoshow('landareas.shp','FaceColor','black')
+title('Difference between biophysical and temperature effects')
