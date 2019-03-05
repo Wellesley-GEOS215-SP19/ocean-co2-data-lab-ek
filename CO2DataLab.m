@@ -50,8 +50,9 @@ figure(1); clf
 subplot(2,1,1);
 worldmap world
 contourfm(latgrid, longrid, SSTgrid(:,:,1)','linecolor','none'); colorbar;
+hcb=colorbar; title(hcb,'\muatm')
 geoshow('landareas.shp','FaceColor','black')
-title('January Sea Surface Temperature (^oC)')
+title('January 2000 Sea Surface Temperature (^oC)')
 
 %Check that you can make a similar type of global map for another month
 %and/or for pCO2 using this approach. Check the documentation and see
@@ -61,8 +62,9 @@ title('January Sea Surface Temperature (^oC)')
 subplot(2,1,2)
 worldmap world
 contourfm(latgrid, longrid, CO2_SWgrid(:,:,1)','linecolor','none'); colorbar
+hcb=colorbar; title(hcb,'\muatm')
 geoshow('landareas.shp','FaceColor','black')
-title('January pCO_2 ')
+title('January 2000 pCO_2 ')
 
 
 %% 4. Calculate and plot a global map of annual mean pCO2
@@ -70,13 +72,13 @@ Annmean = mean(CO2_SWgrid,3);
 figure(2); clf;
 worldmap world
 contourfm(latgrid, longrid, Annmean','linecolor','none'); colorbar
+hcb=colorbar; title(hcb,'\muatm')
 geoshow('landareas.shp','FaceColor','black')
-title('Global Annual Mean pCO_2')
+title('Global Annual Mean pCO_2 in 2000')
 
 %% 5. Calculate and plot a global map of the difference between the annual mean seawater and atmosphere pCO2
 
 %baseline year used to create gridded seaswater pCO2 = 2000
-
 %annual mean atmospheric pCO2 for the baseline year of 2000 = 369.55 
 
 %data from: NOAA Earth System Research Laboratory: Global Monitoring Division
@@ -89,9 +91,10 @@ diffmeanCO2 = Annmean-369.55 ;
 figure(3); clf;
 worldmap world
 contourfm(latgrid, longrid, diffmeanCO2','linecolor','none');
-colormap(cmocean('balance')); caxis([-100 100]); colorbar
+colormap(flipud(cmocean('balance'))); caxis([-100 100]); colorbar
+hcb=colorbar; title(hcb,'\muatm')
 geoshow('landareas.shp','FaceColor','black')
-title('Difference between annual mean seawater and atmospheric pCO_2')
+title('Difference between annual mean seawater and atmospheric pCO_2 in 2000')
 
 
 %% 6. Calculate relative roles of temperature and of biology/physics in controlling seasonal cycle
@@ -140,7 +143,7 @@ figure(7);
 worldmap world
 contourfm(latgrid, longrid, bio','linecolor','none'); hold on;
 colormap(cmocean('deep')); colorbar
-h = colorbar; set(get(h,'label'),'string','pCO_2 change(\muatm)')
+h = colorbar; set(get(h,'label'),'string','pCO_2 change(\muatm)');
 scatterm(staLAT, staLON, 70, 'rp', 'filled'); hold on;
 textm(staLAT+5, staLON+5, titles,'Color','red','FontSize',14);
 geoshow('landareas.shp','FaceColor','black')
@@ -153,9 +156,9 @@ figure(8); clf;
 worldmap world
 contourfm(latgrid, longrid, temp','linecolor','none');
 colormap(flipud(cmocean('solar'))); colorbar
-h = colorbar; set(get(h,'label'),'string','pCO_2 change(\muatm)')
+h = colorbar; set(get(h,'label'),'string','pCO_2 change(\muatm)');
 scatterm(staLAT, staLON, 70, 'rp', 'filled'); hold on;
-textm(staLAT+5, staLON+5, titles,'Color','red','FontSize',14);
+textm(staLAT+5, staLON+5, titles,'Color', 'r','FontSize',14);
 geoshow('landareas.shp','FaceColor','black')
 title('Seasonal Temperature Effect of Seawater pCO_2')
 
@@ -167,7 +170,7 @@ figure(9); clf;
 worldmap world
 contourfm(latgrid, longrid, tBPdiff,'linecolor','none');
 colormap(cmocean('curl')); caxis([-200 200]);  colorbar
-h = colorbar; set(get(h,'label'),'string','pCO_2 (\muatm)')
+h = colorbar; set(get(h,'label'),'string','pCO_2 (\muatm)');
 scatterm(staLAT, staLON, 70, 'rp', 'filled'); hold on;
 textm(staLAT+5, staLON+5, titles,'Color','red','FontSize',14);
 geoshow('landareas.shp','FaceColor','black')
